@@ -1,35 +1,57 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
 
+import CustomTabBar from '@/components/custom-bottom-nav';
 import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-
+  // #717680
+  // #5653FC
   return (
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
         tabBarButton: HapticTab,
-      }}>
+      }}
+      tabBar={(props) => <CustomTabBar {...props} />}
+    >
+      <Tabs.Screen name="index" options={{ title: "Home" }} />
+      <Tabs.Screen name="rooster" options={{ title: "Rooster" }} />
+      <Tabs.Screen name="publication" options={{ title: "Publications" }} />
+      <Tabs.Screen name="profile" options={{ title: "Profile" }} />
+{/*       
       <Tabs.Screen
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          tabBarIcon: ({ color }) => <HomeIcon color={"#5653FC"} />,
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="rooster"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: 'Rooster',
+          tabBarIcon: ({ color }) => <RoosterIcon color={"#fffff"} />,
         }}
       />
+      <Tabs.Screen
+        name="publication"
+        options={{
+          title: 'Publications',
+          tabBarIcon: ({ color }) => <PublicationsIcon color={"#fffff"} />,
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: 'Profile',
+          tabBarIcon: ({ color }) => <PublicationsIcon color={"#fffff"} />,
+        }}
+      /> */}
     </Tabs>
   );
 }
