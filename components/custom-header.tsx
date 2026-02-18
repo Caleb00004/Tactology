@@ -1,19 +1,29 @@
 import { VerticalDotsIcon } from "@/assets/nav-icons";
+import { BottomTabHeaderProps } from "@react-navigation/bottom-tabs";
 import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ThemedView } from "./themed-view";
 
-export default function CustomHeader({ options }: any) {
-  const { headerTitle } = options;
+type Props = BottomTabHeaderProps & {
+  children?: React.ReactNode;
+};
+
+export default function CustomHeader({ options, children }: Props) {
+  const { headerTitle, title } = options;
 
   let titleContent;
 
-  if (typeof headerTitle === "function") {
+  // 1️⃣ If children passed → full override
+  if (children) {
+    titleContent = children;
+  }
+
+  else if (typeof headerTitle === "function") {
     // If it's a function, render it
     titleContent = headerTitle({
       children: options.title,
     });
-  } else {
+  } else if (typeof headerTitle === "string") {
     // If it's a string
     titleContent = (
       <Text style={styles.title}>
@@ -21,12 +31,18 @@ export default function CustomHeader({ options }: any) {
       </Text>
     );
   }
+  // 4️⃣ Fallback to route title
+  else {
+    titleContent = (
+      <Text style={styles.title}>{title}</Text>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
         <ThemedView style={{flexDirection: "row", justifyContent: "space-between"}}>
             {titleContent}
-            <View style={{borderWidth: 1, paddingHorizontal: 18, height: 42, borderRadius: 7, borderColor: "#E5E7EB", alignItems: "center", justifyContent: "center" }}><VerticalDotsIcon /></View>
+            {!children && <View style={{borderWidth: 1, paddingHorizontal: 18, height: 42, borderRadius: 7, borderColor: "#E5E7EB", alignItems: "center", justifyContent: "center" }}><VerticalDotsIcon /></View>}
         </ThemedView>
     </SafeAreaView>
   );
@@ -41,7 +57,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   title: {
-    fontSize: 28,
+    fontSize: 25,
     fontWeight: "600",
   },
 });

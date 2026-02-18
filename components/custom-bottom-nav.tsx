@@ -1,5 +1,5 @@
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, useWindowDimensions, View } from "react-native";
 
 import {
   HomeIcon,
@@ -7,16 +7,56 @@ import {
   PublicationsIcon,
   RoosterIcon,
 } from "@/assets/nav-icons";
+import { useEffect } from "react";
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import { ThemedText } from "./themed-text";
+
+const INDICATOR_WIDTH = 60;
 
 export default function CustomTabBar({
   state,
   descriptors,
   navigation,
 }: BottomTabBarProps) {
+  const translateX = useSharedValue(0)
+  const { width } = useWindowDimensions();
+  const horizontalPadding = 40;
+
+  // const tabWidth = width / state.routes.length;
+  const tabWidth = (width - horizontalPadding) / state.routes.length;
+  
+  useEffect(() => {
+    console.log("USE EFFECT")
+    const centerOffset =
+      tabWidth * state.index +
+      tabWidth / 2 -
+      INDICATOR_WIDTH / 2;
+
+    translateX.value = withSpring(centerOffset + 20);
+  }, [state.index, width]);
+
+
+  // useEffect(() => {
+  //   translateX.value = withSpring(90)
+  // })
+
+  const animatedIndicatorStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateX: translateX.value }],
+    };
+  });
+
+
   return (
     <View style={styles.container}>
-        <View style={styles.indicator}></View>
+      <Animated.View
+        style={[
+          styles.indicator,
+          { width: INDICATOR_WIDTH },
+          animatedIndicatorStyle,
+        ]}
+      />
+
       {state.routes.map((route, index) => {
         const isFocused = state.index === index;
 
@@ -74,13 +114,11 @@ const styles = StyleSheet.create({
     indicator: {
         position: "absolute", 
         height: 4,
-        width: "17%",
+        // width: 100,
         borderBottomRightRadius: 10,
         borderBottomLeftRadius: 10,  
         backgroundColor: "#5653FC",
         top: 0,
-        // left: "13%"
         left: 0,
-        transform: [{translateX: "80%"}]
     }
 });

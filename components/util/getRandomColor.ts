@@ -18,7 +18,7 @@ export function getRandomColor(index?: number) {
   ];
 
   return {
-    borderColor: color,
-    backgroundColor: `${color}1e`, // light transparent version
+    mainColor: color,
+    feintColory: `${color}1e`, // light transparent version
   };
 }
