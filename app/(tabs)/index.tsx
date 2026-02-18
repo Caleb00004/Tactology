@@ -6,8 +6,17 @@ import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Link } from 'expo-router';
+import { JsonCalendar } from "json-calendar";
+
+
 
 export default function HomeScreen() {
+  
+  const calendar = new JsonCalendar()
+  const test = calendar.weeks.map(w => w.map(d => d.day))
+
+ 
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}

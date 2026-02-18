@@ -2,10 +2,10 @@ import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { Pressable, StyleSheet, View } from "react-native";
 
 import {
-    HomeIcon,
-    ProfileIcon,
-    PublicationsIcon,
-    RoosterIcon,
+  HomeIcon,
+  ProfileIcon,
+  PublicationsIcon,
+  RoosterIcon,
 } from "@/assets/nav-icons";
 import { ThemedText } from "./themed-text";
 
