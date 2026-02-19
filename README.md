@@ -1,4 +1,4 @@
-# Welcome 👋
+# Welcome Tactology 👋
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
@@ -7,7 +7,7 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 First clone the codebase to your local machine
 
    ```bash
-      git clone  
+      git clone https://github.com/Caleb00004/Tactology.git
    ```
 
 Note: This app was tested on expo Go, you will need a mobile phone (andriod or IOS) with the Expo Go App already installed from the app store
