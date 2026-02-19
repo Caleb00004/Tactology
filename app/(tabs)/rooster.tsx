@@ -1,16 +1,18 @@
 import { ArrowIcon, CalendarIcon } from '@/assets/nav-icons';
 import { appContext } from '@/components/contexts/appContext';
 import DateItem from '@/components/rooster/date-item';
+import RoosterItem from '@/components/rooster/rooster-item';
+import GradientOverlay from '@/components/secondary/GradientOverlay';
+import { PressableScale } from '@/components/secondary/pressable-scale';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { getRandomColor } from '@/components/util/getRandomColor';
 import useLoading from '@/components/util/useLoading';
-// import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { useContext, useEffect, useRef, useState } from 'react';
-import { ActivityIndicator, FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, FlatList, Pressable, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export function getMonthDays(year: number, month: number) {
+function getMonthDays(year: number, month: number) {
   const days: { day: string; date: number }[] = [];
 
   // Get number of days in month
@@ -79,12 +81,11 @@ export default function RoosterScreen() {
       listRef.current?.scrollToIndex({
         index,
         animated: true,
-        viewPosition: 0, // centers item
+        viewPosition: 0, // to center item
       });
     };
 
     useEffect(() => {
-      // openShiftDetailsSheet()
       const today = new Date();
 
       const isCurrentMonth =
@@ -113,14 +114,29 @@ export default function RoosterScreen() {
         <SafeAreaView style={{flex: 1, backgroundColor: "#fff"}}>
 
           <ThemedView style={{justifyContent: "space-between", alignItems: "center", flexDirection: "row", paddingHorizontal: 14}}>
-            <Pressable onPress={goToPrevMonth} style={{backgroundColor: "#F3F4F6", paddingHorizontal: 13, paddingVertical: 10, borderRadius: 5, }}><ArrowIcon /></Pressable>
+            <PressableScale
+              onPress={goToPrevMonth}
+              style={styles.navButton}
+            >
+              <ArrowIcon />
+            </PressableScale>
+
             <View style={{flexDirection: "row", alignItems: "center", gap: 6}}>
               <CalendarIcon /> 
               <ThemedText style={{fontWeight: 600}} >{monthYearLabel}</ThemedText></View>
-            <Pressable onPress={goToNextMonth} style={{backgroundColor: "#F3F4F6", paddingHorizontal: 13, paddingVertical: 10, borderRadius: 5, transform: [{rotateY: "180deg"}]}}><ArrowIcon /></Pressable>
+            <PressableScale 
+              onPress={goToNextMonth} 
+              style={[{...styles.navButton, transform: [{rotateY: "180deg"}]}]}
+            >
+              <ArrowIcon />
+            </PressableScale>
           </ThemedView>
 
           <View style={{}}>
+            
+            <GradientOverlay />
+            <GradientOverlay rightSide />
+
             <FlatList
               ref={listRef}
               horizontal
@@ -169,21 +185,7 @@ export default function RoosterScreen() {
                     const { feintColor, mainColor } = getRandomColor(index);
 
                     return (
-                      <Pressable onPress={openShiftDetailsSheet}>
-                        <ThemedView style={{flexDirection: "row", gap: 10, }}>
-                          <ThemedText style={{color: "#535862"}}>08:30</ThemedText>
-                          <View style={{backgroundColor: feintColor, flex: 1, borderLeftWidth: 2, borderLeftColor: mainColor , borderRadius: 10, paddingHorizontal: 10, paddingVertical: 10}}>
-                            <View style={{flexDirection: "row", justifyContent: 'space-between', alignItems: "center"}}>
-                              <Text style={{fontWeight: 600}}>OctendedisentsShift</Text>
-                              <Text style={{color: mainColor}}>12:00 - 20:00</Text>
-                            </View>
-                            <View style={{flexDirection: "row",gap: 6, alignItems: "center", marginTop: 22}}>
-                              <View style={{height:20, width: 20, borderRadius: 100, backgroundColor:"#aaa"}} />
-                              <ThemedText style={{color: "#242424"}}>Omar r. <Text style={{color: "#535862", fontSize: 13}}>Beschikbar</Text></ThemedText>
-                            </View>
-                          </View>
-                        </ThemedView>
-                      </Pressable>
+                      <RoosterItem key={index} feintColor={feintColor} mainColor={mainColor} openShiftDetailsSheet={openShiftDetailsSheet} />
                     )
                   }}
                 />
@@ -195,5 +197,11 @@ export default function RoosterScreen() {
 }
 
 const styles = StyleSheet.create({
-
+  navButton: {
+    paddingHorizontal: 13,
+    paddingVertical: 10,
+    borderRadius: 5,
+    backgroundColor: "#F3F4F6",
+  },
 });
+

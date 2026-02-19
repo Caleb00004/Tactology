@@ -6,9 +6,11 @@ import { ThemedView } from '@/components/themed-view';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function PublicationScreen() {
+  
+
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: "#fff", paddingHorizontal: 14}}>
-      {/* <ThemedText>Start exploring publications</ThemedText> */}
+
       <Search 
          style={{
           borderRadius: 10,
@@ -25,7 +27,7 @@ export default function PublicationScreen() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           gap: 23,
-          paddingBottom: 130
+          paddingBottom: 10
         }}
         renderItem={({item}) => {
           return (

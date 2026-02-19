@@ -1,5 +1,3 @@
-// utils/colors.ts
-
 const COLORS = [
   "#5653FC",
   "#22C55E",
@@ -11,7 +9,6 @@ const COLORS = [
 ];
 
 export function getRandomColor(index?: number) {
-  // optional index keeps colors stable per item
   const color = COLORS[index !== undefined
     ? index % COLORS.length
     : Math.floor(Math.random() * COLORS.length)
@@ -19,6 +16,6 @@ export function getRandomColor(index?: number) {
 
   return {
     mainColor: color,
-    feintColory: `${color}1e`, // light transparent version
+    feintColor: `${color}1e`, // light transparent version
   };
 }

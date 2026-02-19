@@ -22,8 +22,6 @@ export default function BottomSheet({
   children,
 }: Props) {
   const translateY = useSharedValue(SCREEN_HEIGHT);
-  // const [isMounted, setIsMounted] = useState(visible);
-
    useEffect(() => {
     if (visible) {
       translateY.value = withSpring(0);
@@ -37,9 +35,6 @@ export default function BottomSheet({
     setTimeout(() => {
       onClose()
     },250)
-    // translateY.value = withSpring(SCREEN_HEIGHT, {}, () => {
-    //   runOnJS(onClose)();
-    // });
   };
 
   const gesture = Gesture.Pan()
@@ -75,7 +70,7 @@ export default function BottomSheet({
       <GestureDetector gesture={gesture}>
         <Animated.View style={[styles.sheet, animatedStyle]}>
           <Animated.View style={styles.handle} />
-          <ScrollView style={{padding: 16}} >
+          <ScrollView style={{padding: 16}} showsVerticalScrollIndicator={false} >
             <View style={{paddingBottom: 30}}>
               {children}
             </View>
@@ -96,12 +91,12 @@ const styles = StyleSheet.create({
     position: "absolute",
     zIndex: 3,
     bottom: 0,
-    width: "100%",
+    width: "95%",
+    marginBottom: 10,
+    alignSelf: "center",
     height: SCREEN_HEIGHT * 0.8,
     backgroundColor: "#fff",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    // padding: 16,
+    borderRadius: 25,
     paddingTop: 16
   },
   handle: {
